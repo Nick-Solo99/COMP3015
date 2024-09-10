@@ -13,9 +13,28 @@
 
 <body>
 
-    <?php
-    
-    ?>
+    <h1>FizzBuzz Problem</h1>
+
+    <p>
+        <?php for ($i = 1; $i <= 100; $i++):
+            if ($i % 3 === 0 && $i % 5 === 0)
+            {
+                echo "<b>FizzBuzz</b><br>" . PHP_EOL;
+            }
+            else if ($i % 3 === 0)
+            {
+                echo "<b>Fizz</b><br>" . PHP_EOL;
+            }
+            else if ($i % 5 === 0)
+            {
+                echo "<b>Buzz</b><br>" . PHP_EOL;
+            }
+            else
+            {
+                echo "$i<br>" . PHP_EOL;
+            }
+        endfor; ?>
+    </p>
 
 </body>
 
