@@ -14,13 +14,21 @@
  *                empty strings or null values for their names and dates
  */
 function filterInvalidShows(array $shows): array {
-    $validShows = [];
+    /*$validShows = [];
     foreach ($shows as $show => $airDate) {
         if (isset($show) && $show !== "" && isset($airDate) && $airDate !== "") {
             $validShows[$show] = $airDate;
         }
     }
-    return $validShows;
+    return $validShows;*/
+    foreach ($shows as $show => $airDate)
+    {
+        if (empty($show) || empty($airDate))
+        {
+            unset($shows[$show]);
+        }
+    }
+    return $shows;
 }
 
 /**
@@ -31,7 +39,7 @@ function filterInvalidShows(array $shows): array {
  */
 function displayShowInfo(array $shows): void {
     foreach ($shows as $show => $airDate) {
-        echo "<b>$show</b>: $airDate<br>" . PHP_EOL;
+        echo "<strong>$show</strong>: $airDate<br>" . PHP_EOL;
     }
 }
 
