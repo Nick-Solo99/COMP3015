@@ -107,7 +107,7 @@ class BookRepository
                 $books[$i] = $newBook;
             }
         }
-        file_put_contents($this->filename, json_encode($books));
+        file_put_contents($this->filename, json_encode(array_values($books)));
     }
 
     /**
@@ -123,6 +123,6 @@ class BookRepository
                 unset($books[$i]);
             }
         }
-        file_put_contents($this->filename, json_encode($books));
+        file_put_contents($this->filename, json_encode(array_values($books)));
     }
 }
