@@ -4,77 +4,45 @@ class Article implements JsonSerializable
 {
     private string $title;
     private string $url;
-    private int $id;
+    private string $id;
 
-    /**
-     * @param int $id
-     * @param string $title
-     * @param string $url
-     */
-    public function __construct(int $id, string $title = '', string $url = '')
+    public function __construct(string $id, string $title = '', string $url = '')
     {
-        $this->id = time();
+        $this->id = $id;
         $this->title = $title;
         $this->url = $url;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     */
     public function setUrl(string $url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @param $articleData
-     *  an associative array of book data e.g.
-     *      [
-     *          'title' => 'Slow decline in COVID-19 hospitalizations in B.C. continues',
-     *          'url' => 'https://www.cbc.ca/news/canada/british-columbia/british-columbia-covid-19-update-1.6592422',
-     *      ]
-     * and we get an Article object returned
-     */
     public function fill(array $articleData): Article
     {
         foreach ($articleData as $key => $value) {
