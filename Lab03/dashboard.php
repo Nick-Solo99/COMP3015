@@ -1,24 +1,29 @@
 <?php
-// TODO
-// Prevent guest users from accessing this page.
-// We will need to call session_start() and check $_SESSION['some_index']
-// in order to determine if the user is authenticated or not.
+session_start();
+if (!isset($_SESSION['email'])) {
+    header('Location: login.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Page</title>
-</head>
+<?php REQUIRE_ONCE './layout/header.php'?>
 <body>
-    <p>This is the dashboard page only for logged in users.</p>
-
-    <?php
-        // TODO
-        // Display a "You're logged in as <email>" message as well as a logout link.
-    ?>
-
+<?php REQUIRE_ONCE './layout/navigation.php'?>
+    <div class="flex w-full flex-col border-opacity-50 p-5 items-center">
+        <h1 class="text-2xl text-center text-primary">This is the dashboard page only for logged-in users.</h1>
+        <?php if (isset($_SESSION['email'])): ?>
+            <div class="card bg-neutral text-neutral-content w-96 m-5">
+                <div class="card-body items-center text-center">
+                    <h2 class="card-title">User Logged In.</h2>
+                    <p>User is logged-in as <?=htmlspecialchars($_SESSION['email'])?></p>
+                    <div class="card-actions justify-end">
+                        <a href="logout.php" class="btn btn-outline btn-error">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
 </body>
 </html>

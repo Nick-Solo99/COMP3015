@@ -1,6 +1,6 @@
 <?php
-// TODO
-// Ensure only guest users can access this page. What code controls this??
+$telephoneRegex = "/^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$/";
+$emailRegex = "/^.*@bcit.ca$/";
 
 session_start();
 
@@ -11,26 +11,28 @@ if(isset($_SESSION['email'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$errors = false;
-
-	if (empty($_POST['email'])) {
-		$_SESSION['email_error'] = 'An email is required.';
-		$errors = true;
-	}
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || !preg_match($emailRegex, $_POST['email'])) {
+        $_SESSION['email_error'] = 'Please enter a valid email address.';
+        $errors = true;
+    }
 	if (empty($_POST['password'])) {
 		$_SESSION['password_error'] = 'A password is required.';
 		$errors = true;
 	}
-	if (empty($_POST['telephone'])) {
-		$_SESSION['telephone_error'] = 'A telephone number is required.';
+	if (!preg_match($telephoneRegex, $_POST['telephone'])) {
+		$_SESSION['telephone_error'] = 'A valid telephone number is required.';
 		$errors = true;
 	}
 
 	if ($errors) {
-		$_SESSION['email'] = $_POST['email'];
+		$_SESSION['attempted_email'] = $_POST['email'];
 		$_SESSION['telephone'] = $_POST['telephone'];
 		header('Location: register.php');
 	} else {
-		header('Location: home.php');
+        $_SESSION['email'] = $_POST['email'];
+        $_SESSION['telephone'] = $_POST['telephone'];
+        $_SESSION['validated'] = true;
+		header('Location: dashboard.php');
 	}
 	exit;
 }
@@ -126,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 address </label>
                             <div class="mt-1">
                                 <input id="email" name="email" type="text" autocomplete="email"
-                                       value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : '' ?>"
+                                       value="<?php echo isset($_SESSION['attempted_email']) ? $_SESSION['attempted_email'] : '' ?>"
                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </div>
                         </div>
