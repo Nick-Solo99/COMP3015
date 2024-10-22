@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 <?php require_once 'navigation/navigation_header.php' ?>
 
 <body>
-    <h1 class="mb-4 text-4xl text-center font-extrabold leading-none tracking-tight text-primary md:text-5xl lg:text-6xl">COMP 3014 Lab 4 - Part 2</h1>
+    <h1 class="mb-4 text-4xl text-center font-extrabold leading-none tracking-tight text-primary md:text-5xl lg:text-6xl">COMP 3015 Lab 4 - Part 2</h1>
     <div class="flex flex-col justify-center items-center m-10">
         <form class="w-full max-w-sm" action="part2.php" method="POST" >
             <div class="md:flex md:items-center mb-6">
