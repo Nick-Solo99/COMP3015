@@ -13,7 +13,7 @@ class Repository {
 	protected PDO $pdo;
 	private string $hostname;
 	private string $username;
-	private string $databaseName;
+	protected string $databaseName;
 	private string $databasePassword;
 	private string $charset;
 	private string $port;
@@ -25,7 +25,7 @@ class Repository {
 		// We will do this as part of a later lab in the course (not required for lab 4).
 		$this->hostname = 'localhost';
 		$this->username = 'root';
-		$this->databaseName = 'posts_web_app';
+        $this->databaseName = empty($this->databaseName) ? 'posts_web_app' : $this->databaseName;
 		$this->databasePassword = '';
 		$this->charset = 'utf8mb4';
 		$this->port = '3306';

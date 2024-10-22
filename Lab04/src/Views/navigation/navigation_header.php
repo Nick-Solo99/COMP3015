@@ -46,6 +46,13 @@ function active($page): bool {
                                     'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
 							    ?>"
                                href="add.php">Add</a>
+                            <a class="
+                                <?php
+                            echo active('add.php') ?
+                                'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium' :
+                                'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
+                            ?>"
+                               href="part2.php">Part 2</a>
                         </div>
                     </div>
                 </div>

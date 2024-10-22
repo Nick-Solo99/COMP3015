@@ -33,9 +33,9 @@ class PostRepository extends Repository {
 		$createdAt = date('Y-m-d H:i:s');
 
 		// 1. query to execute against the DB
-		$rowsInserted = $this->pdo->exec("INSERT INTO posts (created_at, updated_at, body, title) VALUES ('$createdAt', NULL, '$body', '$title');");
-
-		if ($rowsInserted === 1) {
+		$sqlStatement = $this->pdo->prepare("INSERT INTO posts (created_at, updated_at, body, title) VALUES (?, NULL, ?, ?);");
+        $success = $sqlStatement->execute([$createdAt, $body, $title]);
+		if ($success) {
 			// 2. get the last ID inserted
 			$id = $this->pdo->lastInsertId();
 
@@ -70,8 +70,8 @@ class PostRepository extends Repository {
 	 * @return bool true on success, false otherwise
 	 */
 	public function updatePost(int $id, string $title, string $body): bool {
-		// TODO
-		return false;
+		$sqlStatement = $this->pdo->prepare("UPDATE posts SET title = ?, body = ?, updated_at = NOW() WHERE id = ?");
+        return $sqlStatement->execute([$title, $body, $id]);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class PostRepository extends Repository {
 	 * @return bool true on success, false otherwise
 	 */
 	public function deletePostById(int $id): bool {
-		// TODO
-		return false;
+		$sqlStatement = $this->pdo->prepare("DELETE FROM posts WHERE id = ?");
+		return $sqlStatement->execute([$id]);
 	}
 }
