@@ -9,13 +9,15 @@ class Controller
      * @param array $data
      * @return void
      */
-    protected function render(string $view, array $data = []): void
+    protected function render(string $view, array $data = [], bool $exit = true): void
     {
         // import variables from the $data array to the current symbol table
         // making them accessible to the $view.
         extract($data);
         include __DIR__ . '/../../views/' . $view . '.view.php';
-        exit;
+        if ($exit) {
+            exit;
+        }
     }
 
     /**
@@ -31,7 +33,7 @@ class Controller
         }
     }
 
-    public function startSession()
+    public function startSession() : void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

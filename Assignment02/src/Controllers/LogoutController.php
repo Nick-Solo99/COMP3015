@@ -6,9 +6,10 @@ use core\Request;
 
 class LogoutController extends Controller
 {
-    public function logout()
+    public function logout() : void
     {
-        // TODO
+        $this->destroySession();
+        $this->redirect('/');
     }
 
 }

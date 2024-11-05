@@ -15,7 +15,13 @@ class UserRepository extends Repository
      */
     public function getUserById(string $id): User|false
     {
-        // TODO
+        $sqlStatement = $this->pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $success = $sqlStatement->execute([$id]);
+        if ($success) {
+            $user = $sqlStatement->fetch();
+            return new User($user);
+        }
+        return false;
     }
 
     /**
@@ -24,7 +30,14 @@ class UserRepository extends Repository
      */
     public function getUserByEmail(string $email): User|false
     {
-        // TODO
+        $sqlStatement = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $success = $sqlStatement->execute([$email]);
+        if ($success) {
+            $user = $sqlStatement->fetch();
+            if ($user === false) return false;
+            return new User($user);
+        }
+        return false;
     }
 
     /**
@@ -35,7 +48,13 @@ class UserRepository extends Repository
      */
     public function saveUser(string $name, string $email, string $passwordDigest): User|false
     {
-        // TODO
+        $sqlStatement = $this->pdo->prepare("INSERT INTO users (name, email, password_digest) VALUES (?, ?, ?)");
+        $success = $sqlStatement->execute([$name, $email, $passwordDigest]);
+        if ($success) {
+            $id = $this->pdo->lastInsertId();
+            return $this->getUserById($id);
+        }
+        return false;
     }
 
     /**
@@ -46,7 +65,12 @@ class UserRepository extends Repository
      */
     public function updateUser(int $id, string $name, string $profilePicture = null): bool
     {
-        // TODO
+        if ($profilePicture != null) {
+            $sqlStatement = $this->pdo->prepare("UPDATE users SET name = ?, profile_picture = ? WHERE id = ?");
+            return $sqlStatement->execute([$name, $profilePicture, $id]);
+        }
+        $sqlStatement = $this->pdo->prepare("UPDATE users SET name = ? WHERE id = ?");
+        return $sqlStatement->execute([$name, $id]);
     }
 
 }

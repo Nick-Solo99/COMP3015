@@ -34,7 +34,17 @@ class ArticleRepository extends Repository
      */
     public function saveArticle(string $title, string $url, string $authorId): Article|false
     {
-        // TODO
+        $createdAt = date("Y-m-d H:i:s");
+
+        $sqlStatement = $this->pdo->prepare("INSERT INTO articles (title, url, author_id, created_at) VALUES (?, ?, ?, ?)");
+        $success = $sqlStatement->execute([$title, $url, $authorId, $createdAt]);
+        if ($success) {
+            $article = $sqlStatement->fetch();
+            if ($article) {
+                return new Article($article);
+            }
+        }
+        return false;
     }
 
     /**
@@ -43,7 +53,15 @@ class ArticleRepository extends Repository
      */
     public function getArticleById(int $id): Article|false
     {
-        // TODO
+        $sqlStatement = $this->pdo->prepare("SELECT * FROM articles WHERE id = ?");
+        $success = $sqlStatement->execute([$id]);
+        if ($success) {
+            $article = $sqlStatement->fetch();
+            if ($article) {
+                return new Article($article);
+            }
+        }
+        return false;
     }
 
     /**
@@ -54,7 +72,9 @@ class ArticleRepository extends Repository
      */
     public function updateArticle(int $id, string $title, string $url): bool
     {
-        // TODO
+        $updatedAt = date("Y-m-d H:i:s");
+        $sqlStatement = $this->pdo->prepare("UPDATE articles SET title = ?, url = ?, updated_at = ? WHERE id = ?");
+        return $sqlStatement->execute([$title, $url, $updatedAt, $id]);
     }
 
     /**
@@ -63,7 +83,8 @@ class ArticleRepository extends Repository
      */
     public function deleteArticleById(int $id): bool
     {
-        // TODO
+        $sqlStatement = $this->pdo->prepare("DELETE FROM articles WHERE id = ?");
+        return $sqlStatement->execute([$id]);
     }
 
     /**
@@ -72,6 +93,12 @@ class ArticleRepository extends Repository
      */
     public function getArticleAuthor(string $articleId): ?User
     {
-        // TODO
+        $sqlStatement = $this->pdo->prepare("SELECT * FROM articles WHERE id = ?");
+        $success = $sqlStatement->execute([$articleId]);
+        if ($success) {
+            $user = $sqlStatement->fetch();
+            return new User($user);
+        }
+        return null;
     }
 }
