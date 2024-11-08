@@ -26,7 +26,7 @@ jobs:
         run: |
           ls -alh ./Lab05Part01/.env.ci
           cp ./Lab05Part01/.env.ci ./Lab05Part01/.env || { echo "cp command failed"; exit 1; }
-          mysql -h 127.0.0.1 --port 3306 -uroot < ./Lab05Part01/database/test_schema.sql || { echo "MySql command failed; exit 1; }
+          mysql -h 127.0.0.1 --port 3306 -uroot < ./Lab05Part01/database/test_schema.sql || { echo "MySql command failed"; exit 1; }
           
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader || { echo "Composer Install failed"; exit 1; }
 
