@@ -1,0 +1,36 @@
+name: COMP 3015 CI Pipeline
+on:
+  push:
+    paths:
+      - "Lab05Part01/**"
+      - "!Lab05Part01/README.md"
+      - "!Lab05Part01/.env.example"
+      - "!Lab05Part01/.editorconfig"
+
+jobs:
+  COMP3015Pipeline:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0.21
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure Application
+        run: |
+          cd ./Lab05Part01
+          cp .env.ci .env || { echo "cp command failed"; exit 1; }
+          mysql -h 127.0.0.1 --port 3306 -uroot < ./database/test_schema.sql || { echo "MySql command failed"; exit 1; }
+          
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader || { echo "Composer Install failed"; exit 1; }
+
+      - name: Run Unit Tests
+        run: |
+          cd ./Lab05Part01
+          vendor/bin/phpunit
