@@ -25,7 +25,7 @@ class Repository
 		// See: https://www.php.net/manual/en/function.php-sapi-name.php
         $sapi_type = php_sapi_name();
         if ($sapi_type === "cli") {
-            $dotenv = Dotenv::createImmutable(__DIR__ . "/../../", '.env.test');
+            $dotenv = Dotenv::createImmutable(__DIR__ . "/../../", '.env.ci');
         } else {
             $dotenv = Dotenv::createImmutable(__DIR__ . "/../../");
         }
