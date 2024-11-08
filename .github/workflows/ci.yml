@@ -25,7 +25,7 @@ jobs:
       - name: Configure Application
         run: |
           mysql -h 127.0.0.1 --port 3306 -uroot < ./Lab05Part01/database/test_schema.sql
-          cp .env.ci .env
+          cp ./Lab05Part01/.env.ci ./Lab05Part01/.env
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader
 
       - name: Run Unit Tests
