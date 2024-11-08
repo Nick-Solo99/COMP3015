@@ -25,5 +25,3 @@ $ php -S localhost:7777 -t src/Views
 ```
 
 Alternatively, you can run it using Apache or Nginx.
-
-
