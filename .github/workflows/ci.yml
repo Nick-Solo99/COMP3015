@@ -3,11 +3,11 @@ on:
   push:
     paths:
       - "Lab05Part01/**"
-    paths-ignore:
-      - "Lab05Part01/README.md"
-      - "Lab05Part01/.gitignore"
-      - "Lab05Part01/.env.example"
-      - "Lab05Part01/.editorconfig"
+      - "!Lab05Part01/README.md"
+      - "!Lab05Part01/.gitignore"
+      - "!Lab05Part01/.env.example"
+      - "!Lab05Part01/.editorconfig"
+
 jobs:
   COMP3015Pipeline:
     runs-on: ubuntu-latest
