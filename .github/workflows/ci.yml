@@ -24,11 +24,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Configure Application
         run: |
-          ls -alh ./Lab05Part01/.env.ci
-          cp ./Lab05Part01/.env.ci ./Lab05Part01/.env || { echo "cp command failed"; exit 1; }
-          mysql -h 127.0.0.1 --port 3306 -uroot < ./Lab05Part01/database/test_schema.sql || { echo "MySql command failed"; exit 1; }
+          cd ./Lab05Part01
+          cp .env.ci .env || { echo "cp command failed"; exit 1; }
+          mysql -h 127.0.0.1 --port 3306 -uroot < ./database/test_schema.sql || { echo "MySql command failed"; exit 1; }
           
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader || { echo "Composer Install failed"; exit 1; }
 
       - name: Run Unit Tests
-        run: vendor/bin/phpunit --configuration ./Lab05Part01/phpunit.xml
+        run: vendor/bin/phpunit
