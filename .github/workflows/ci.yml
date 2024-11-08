@@ -3,8 +3,6 @@ on:
   push:
     paths:
       - "Lab05Part01/**"
-      - "!Lab05Part01/README.md"
-      - "!Lab05Part01/.editorconfig"
 
 jobs:
   COMP3015Pipeline:
