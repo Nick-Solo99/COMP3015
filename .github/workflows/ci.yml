@@ -25,7 +25,7 @@ jobs:
       - name: Configure Application
         run: |
           ls -alh ./Lab05Part01
-          cp ./Lab05Part01/.env.ci ./Lab05Part01/.env || {echo "cp command failed"; exit 1;}
+          cp ./Lab05Part01/.env.ci ./Lab05Part01/.env || { echo "cp command failed"; exit 1; }
           mysql -h 127.0.0.1 --port 3306 -uroot < ./Lab05Part01/database/test_schema.sql
           
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader
