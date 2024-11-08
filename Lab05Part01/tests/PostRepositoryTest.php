@@ -85,6 +85,5 @@ class PostRepositoryTest extends TestCase
         $allPosts = $this->postRepository->getAllPosts();
         $this->assertIsArray($allPosts);
         $this->assertCount(0, $allPosts);
-
     }
 }
