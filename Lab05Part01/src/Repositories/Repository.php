@@ -21,15 +21,22 @@ class Repository
 
 	public function __construct()
 	{
-		// TODO: Load the correct environment file depending on how the application is run.
 		// SAPI -> Server API
 		// See: https://www.php.net/manual/en/function.php-sapi-name.php
+        $sapi_type = php_sapi_name();
+        if ($sapi_type === "cli") {
+            $dotenv = Dotenv::createImmutable(__DIR__ . "/../../", '.env.test');
+        } else {
+            $dotenv = Dotenv::createImmutable(__DIR__ . "/../../");
+        }
+        $dotenv->load();
+
 
 		// After loading the environment file, remove all hardcoded credentials/environment info.
-		$this->hostname = 'localhost';
-		$this->username = 'root';
-		$this->databaseName = 'posts_web_app';
-		$this->databasePassword = '';
+		$this->hostname = $_ENV['DB_HOST'];
+		$this->username = $_ENV['DB_USER'];
+        $this->databaseName = $_ENV['DB_NAME'];
+		$this->databasePassword = $_ENV['DB_PASS'];
 		$this->charset = 'utf8mb4';
 
 		$dsn = "mysql:host=$this->hostname;dbname=$this->databaseName;charset=$this->charset";

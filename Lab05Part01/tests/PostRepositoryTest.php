@@ -33,16 +33,14 @@ class PostRepositoryTest extends TestCase
     {
         parent::tearDown();
 
-        // TODO: Read the username and host from the .env file
-
-        $dsn = "mysql:host=localhost;";
+        $dsn = "mysql:host=" . $_ENV['DB_HOST'] . ';';
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         try {
-            $pdo = new PDO($dsn, 'root', '', $options);
+            $pdo = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASS'], $options);
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
@@ -52,23 +50,40 @@ class PostRepositoryTest extends TestCase
 
     public function testPostCreation()
     {
-        $post = (new PostRepository())->savePost('test', 'body');
+        $post = $this->postRepository->savePost('test', 'body');
         $this->assertEquals('test', $post->title);
         $this->assertEquals('body', $post->body);
     }
 
     public function testPostRetrieval()
     {
-        // TODO test the "get" methods in the PostRepository class
+        $savePost = $this->postRepository->savePost('test', 'body');
+        $getPost = $this->postRepository->getPostById($savePost->id);
+        $this->assertEquals($savePost->id, $getPost->id);
+        $this->assertEquals($savePost->title, $getPost->title);
+        $this->assertEquals($savePost->body, $getPost->body);
+
+
+        $allPosts = $this->postRepository->getAllPosts();
+        $this->assertIsArray($allPosts);
+        $this->assertCount(1, $allPosts);
     }
 
     public function testPostUpdate()
     {
-        // TODO create a post, update the title and body, and check that you get the expected title and body
+        $post = $this->postRepository->savePost('testInit', 'bodyInit');
+        $this->postRepository->updatePost($post->id, 'testUpd', 'bodyUpd');
+        $post = $this->postRepository->getPostById($post->id);
+        $this->assertEquals('testUpd', $post->title);
+        $this->assertEquals('bodyUpd', $post->body);
     }
 
     public function testPostDeletion()
     {
-        // TODO: delete a post by ID and check that it isn't in the database anymore
+        $post = $this->postRepository->savePost('test', 'body');
+        $this->postRepository->deletePostById($post->id);
+        $allPosts = $this->postRepository->getAllPosts();
+        $this->assertIsArray($allPosts);
+        $this->assertCount(0, $allPosts);
     }
 }
