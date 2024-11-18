@@ -5,7 +5,7 @@ use Symfony\Component\Routing;
 
 $routes = new Routing\RouteCollection();
 
-$routes->add('hello', new Routing\Route('/save', [
+$routes->add('save', new Routing\Route('/save', [
     '_controller' => [new FileGatewayController(), 'save']
 ]));
 
